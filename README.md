@@ -60,7 +60,6 @@ All benchmarks were conducted using a biologically plausible spiking network tra
 - **Learning Rules Compared**:
   - SADP (agreement-based, spline-calibrated from memtransistor data)
   - STDP (classical causal/asymmetric exponential kernel)
-  - Hebbian (unsupervised, correlation-based)
 - **Update Kernels**:
   - SADP updates computed using learned spline from measured ΔG/G₀ values
   - STDP based on timing difference between spike pairs
