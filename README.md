@@ -9,7 +9,7 @@ SADP is especially designed for neuromorphic substrates like **memtransistors**,
 ## 🔬 Core Features
 
 - 📊 Global **spike-train agreement** instead of pairwise Δt.
-- 🔁 **Spline-based learning kernels** derived from memtransistor data.
+- 🔁 **Spline-based learning kernels** derived from ideal model or memtransistor data
 - ⚡ **Linear-time weight updates**, no spike matching needed.
 - 🧠 **Neuromorphic-hardware friendly** and fully on-chip implementable.
 - 📈 **Benchmarks against STDP and Hebbian** learning on spiking MNIST.
@@ -22,7 +22,8 @@ SADP is especially designed for neuromorphic substrates like **memtransistors**,
 |--------------------------------|-----------------------------------------------------|
 | SADP_functions.ipynb         | Core SADP functions, spline kernel computation.     |
 | Benhmarking_SADP.ipynb       | SADP benchmark on MNIST with spike-coded inputs.    |
-| Benhmarking_STDP_other.ipynb | STDP and Hebbian benchmarks (comparison baselines). |
+| Benhmarking_STDP.ipynb | STDP benchmark (comparison baselines). |
+| Benhmarking_Hebbian.ipynb | Hebbian benchmark (comparison baselines). |
 | requirements.txt             | CPU-based Python environment.                       |
 | requirements_gpu.txt         | GPU-accelerated version with CUDA dependencies.     |
 
@@ -58,7 +59,7 @@ All benchmarks were conducted using a biologically plausible spiking network tra
   - Output layer: 10 spiking neurons
 - **Encoding**: Poisson spike encoding over 10 discrete time steps
 - **Learning Rules Compared**:
-  - SADP (agreement-based, spline-calibrated from memtransistor data)
+  - SADP (agreement-based, spline-calibrated from memtransistor data or ideal mathematical model)
   - STDP (classical causal/asymmetric exponential kernel)
 - **Update Kernels**:
   - SADP updates computed using learned spline from measured ΔG/G₀ values
