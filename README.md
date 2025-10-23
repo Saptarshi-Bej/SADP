@@ -1,31 +1,37 @@
-# 🧠 SADP: Spike Agreement-Dependent Plasticity
+# 🧠 SADP & SCDP: Fast Agreement-Driven Learning Rules for Spiking Neural Networks
 
-**SADP** (Spike Agreement-Dependent Plasticity) is a biologically grounded, hardware-compatible synaptic learning rule for spiking neural networks (SNNs). It replaces pairwise spike-timing updates (STDP) with agreement-based plasticity driven by global spike-train similarity (e.g., Cohen’s κ). 
+This repository provides implementations and benchmarks for **Spike Agreement-Dependent Plasticity (SADP)** and **Spike Correlation-Dependent Plasticity (SCDP)** — biologically grounded, **hardware-compatible learning rules** for Spiking Neural Networks (SNNs).
 
-SADP is especially designed for neuromorphic substrates like **memtransistors**, using spline-fitted update kernels derived from real device conductance traces.
+SADP replaces pairwise spike-timing updates (as in STDP) with **global spike-train agreement** based on *Cohen’s κ*, while SCDP uses the raw *Pearson correlation* to model co-firing intensity. Both achieve **linear-time (O(T))** complexity and are **neuromorphic-hardware friendly**, enabling local, efficient learning without gradient backpropagation.
+
+Additionally, this repository includes **benchmark baselines** for classical STDP, Hebbian learning, and a **supervised surrogate-gradient SNN** to contextualize performance.
 
 ---
 
 ## 🔬 Core Features
 
-- 📊 Global **spike-train agreement** instead of pairwise Δt.
-- 🔁 **Spline-based learning kernels** derived from ideal model or memtransistor data
-- ⚡ **Linear-time weight updates**, no spike matching needed.
-- 🧠 **Neuromorphic-hardware friendly** and fully on-chip implementable.
-- 📈 **Benchmarks against STDP and Hebbian** learning on spiking MNIST.
+- 📊 **Agreement- or correlation-driven plasticity** instead of pairwise Δt-based STDP.
+- 🔁 **Spline-based learning kernels** derived from ideal models or **memtransistor conductance data**.
+- ⚡ **Linear-time weight updates**, no spike matching or causal timing required.
+- 🧩 **Fully local and biologically plausible** — no global error propagation.
+- 💡 **Hardware-friendly formulation**, suitable for event-driven neuromorphic substrates.
+- 📈 Benchmarks on **MNIST** and **Fashion-MNIST**, comparing SADP, SCDP, STDP, Hebbian, and Surrogate Gradient methods.
 
 ---
 
 ## 📂 Repository Structure
 
-| File / Folder                   | Description                                         |
-|--------------------------------|-----------------------------------------------------|
-| SADP_functions.ipynb         | Core SADP functions, spline kernel computation.     |
-| Benhmarking_SADP.ipynb       | SADP benchmark on MNIST with spike-coded inputs.    |
-| Benhmarking_STDP.ipynb | STDP benchmark (comparison baselines). |
-| Benhmarking_Hebbian.ipynb | Hebbian benchmark (comparison baselines). |
-| requirements.txt             | CPU-based Python environment.                       |
-| requirements_gpu.txt         | GPU-accelerated version with CUDA dependencies.     |
+| File / Folder | Description |
+|----------------|--------------|
+| `SADP_functions.ipynb` | Core SADP functions and spline kernel computation. |
+| `SCDP_functions.ipynb` | Core SCDP functions based on Pearson correlation. |
+| `Benchmarking_SADP.ipynb` | SADP benchmark on MNIST and FMNIST (rate / TTFS coding). |
+| `Benchmarking_SCDP.ipynb` | SCDP benchmark for ablation study comparing κ vs ρ. |
+| `Benchmarking_STDP.ipynb` | Classical STDP baseline (pairwise causal updates). |
+| `Benchmarking_Hebbian.ipynb` | Rate-based Hebbian baseline (Oja-style updates). |
+| `Benchmarking_surrogate_gradient.ipynb` | Supervised surrogate-gradient SNN for upper-bound reference. |
+| `requirements.txt` | CPU-based Python environment specification. |
+| `requirements_gpu.txt` | GPU-accelerated environment (CUDA 11.x). |
 
 ---
 
@@ -59,15 +65,18 @@ All benchmarks were conducted using a biologically plausible spiking network tra
   - Output layer: 10 spiking neurons
 - **Encoding**: Poisson spike encoding over 10 discrete time steps
 - **Learning Rules Compared**:
-  - SADP (agreement-based, spline-calibrated from memtransistor data or ideal mathematical model)
-  - STDP (classical causal/asymmetric exponential kernel)
+  - SADP (Cohen’s κ)
+  - SCDP (Pearson ρ)
+  - STDP (under limited settings)
+  - Hebbian (under limited settings)
+  - Surrogate Gradient
 - **Update Kernels**:
-  - SADP updates computed using learned spline from measured ΔG/G₀ values
+  - SADP/SCDP updates computed using learned spline from measured ΔG/G₀ values
   - STDP based on timing difference between spike pairs
 - **Evaluation Metrics**:
+  - Runtime
   - Classification accuracy over time
-  - Synaptic weight evolution
-  - Robustness to spike-timing noise
+ 
 - **Simulation Platform**: NumPy-based implementation with batch simulation
 
 ---
